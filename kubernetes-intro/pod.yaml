@@ -9,7 +9,7 @@ spec:
   initContainers:
   - name: init-container
     image: busybox
-    command: ["/bin/sh", "-c", "Privet medved' > /init/index.html"]
+    command: ["/bin/sh", "-c", "echo 'Privet medved' > /init/index.html"]
     volumeMounts:
     - name: shared-volume
       mountPath: /init
@@ -29,3 +29,4 @@ spec:
   - name: shared-volume
     emptyDir: {}
   terminationGracePeriodSeconds: 1
+  dnsPolicy: Default
