@@ -9,7 +9,7 @@ spec:
   initContainers:
   - name: init-container
     image: busybox
-    command: ["/bin/sh", "-c", "echo 'Privet medved' > /init/index.html"]
+    command: ["/bin/sh", "-c", "echo 'Privet medved2' > /init/index.html"]
     volumeMounts:
     - name: shared-volume
       mountPath: /init
@@ -21,6 +21,9 @@ spec:
     volumeMounts:
     - name: shared-volume
       mountPath: /homework
+    - name: nginx-config-volume
+      mountPath: /etc/nginx
+      readOnly: true
     lifecycle:
       preStop:
         exec:
@@ -28,5 +31,8 @@ spec:
   volumes:
   - name: shared-volume
     emptyDir: {}
+  - name: nginx-config-volume
+    configMap:
+      name: nginx-config
   terminationGracePeriodSeconds: 1
   dnsPolicy: Default
