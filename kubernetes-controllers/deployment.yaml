@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentdz2
+  namespace: homework
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      nodeSelector:
+        homework: "true"
+      initContainers:
+      - name: init-container
+        image: busybox
+        command: ["/bin/sh", "-c", "echo 'Privet medved2' > /init/index.html"]
+        volumeMounts:
+        - name: shared-volume
+          mountPath: /init
+      containers:
+      - name: web-server
+        image: nginx
+        ports:
+          - containerPort: 8000
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - /homework/index.html
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        - name: shared-volume
+          mountPath: /homework
+        - name: nginx-config-volume
+          mountPath: /etc/nginx   
+          readOnly: true
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "rm -f /homework/index.html"]
+      volumes:
+      - name: shared-volume
+        emptyDir: {}
+      - name: nginx-config-volume
+        configMap:
+          name: nginx-config
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
