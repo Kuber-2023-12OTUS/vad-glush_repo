@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configdz
+  namespace: homework
+data:
+  test.conf: |
+    host = 8.8.8.8
+    port = 65432
