@@ -1,0 +1,48 @@
+namespaceOverride: homework
+ingress:
+  host: homework.otus
+service:
+  name: my-service 
+  type: ClusterIP
+  selector_app: my-app
+  ports:
+    name: http
+    protocol: TCP
+    port: 80
+  replicas: 3
+
+deployment:
+  name: deploymentdz2
+  namespace: homework
+  labels: dz-volumes
+  strategy:
+    type: RollingUpdate
+    maxSurge: 1
+    maxUnavailable: 1
+  pod_lables: my-app
+  nodeSelector: { homework: "true" }
+  containers:
+    name: ""
+    ports: 8000
+    lifecycle_prestop: "'/bin/sh', '-c', 'rm -f /homework/index.html'"
+    readinessProbe: true
+    image: nginx
+  initContainers:
+    name: ""
+    command: "'/bin/sh', '-c', 'echo Privet medved2 > /init/index.html && wget -O /init/metrics.html http://192.168.100.6:9090/metrics'"
+    image: busybox
+
+volumeMounts:
+  - name: shared-volume
+    mountPath: /homework
+    emptyDir: '{}'
+  - name: nginx-config-volume
+    mountPath: /etc/nginx
+    readOnly: true
+    configMap: 
+        name: config
+  - name: myclaim
+    mountPath: /homework/conf
+    readOnly: true
+    configMap:
+        name: configdz

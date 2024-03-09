@@ -1,0 +1,7 @@
+templates:
+  default:
+    missingFileHandler: Warn
+    wait: true
+    values:
+      - inventory/{{`{{ .Environment.Name }}`}}/values.yaml
+

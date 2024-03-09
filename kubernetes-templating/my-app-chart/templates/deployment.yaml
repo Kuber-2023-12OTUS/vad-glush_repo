@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  namespace: {{ .Values.deployment.namespace}}
+  labels:
+    app: {{ .Values.deployment.labels }}
+spec:
+  replicas: {{ .Values.service.replicas }}
+  strategy:
+    type: {{ .Values.deployment.strategy.type }}
+    {{- if eq ( .Values.deployment.strategy.type | toString | lower ) "rollingupdate" }}
+
+    rollingUpdate:
+      maxUnavailable: {{ .Values.deployment.strategy.maxUnavailable }}
+    {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.pod_lables }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.pod_lables }}
+    spec:
+      nodeSelector:
+        {{ .Values.deployment.nodeSelector | toYaml }}
+      initContainers:
+      - name: {{ .Values.deployment.initContainers.name | default "init-container" }} 
+        image: {{- if contains ":" .Values.deployment.initContainers.image }} {{ (split ":" .Values.deployment.initContainers.image)._0 }}:{{ (split ":" .Values.deployment.initContainers.image)._1 }}
+              {{- else }} {{ .Values.deployment.initContainers.image }}:latest
+              {{- end }}
+        command: [{{ .Values.deployment.initContainers.command }}]
+        volumeMounts:
+        {{- if .Values.volumeMounts }}
+            {{- range .Values.volumeMounts }}
+            {{- if eq .name "shared-volume"}}
+        - name: {{ .name }}
+          mountPath: /init
+                {{- if .readOnly }}
+          readOnly: {{ .readOnly }}
+            {{- end }}
+                {{- end }}
+            {{- end }}
+            {{- end }}
+      containers:
+      - name: {{ .Values.deployment.containers.name | default "web-server" }}
+        image: {{- if contains ":" .Values.deployment.containers.image }} {{ (split ":" .Values.deployment.containers.image)._0 }}:{{ (split ":" .Values.deployment.containers.image)._1 }}
+              {{- else }} {{ .Values.deployment.containers.image }}:latest
+              {{- end }}
+        ports:
+          - containerPort: {{ .Values.deployment.containers.ports }}
+        {{- if .Values.deployment.containers.readinessProbe }}
+
+        readinessProbe:
+          httpGet:
+            path: /index.html
+            port: {{ .Values.deployment.containers.ports }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        {{- end }}
+        volumeMounts:
+            {{- if .Values.volumeMounts }}
+            {{- range .Values.volumeMounts }}
+        - name: {{ .name }}
+          mountPath: {{ .mountPath }}
+                {{- if .readOnly }}
+          readOnly: {{ .readOnly }}
+                {{- end }}
+            {{- end }}
+            {{- end }}
+        lifecycle:
+          preStop:
+            exec:
+              command: [{{ .Values.deployment.containers.lifecycle_prestop}}]
+      volumes:
+      {{- if .Values.volumeMounts }}
+            {{- range .Values.volumeMounts }}
+      - name: {{ .name }}
+        {{- if .emptyDir }}
+        emptyDir: {{ .emptyDir }}
+        {{- end }}
+        {{- if .configMap }}
+        configMap: 
+          name: {{ .configMap.name }}
+        {{- end }}
+            {{- end }}
+      {{- end }}
+  strategy:
+    type: {{ .Values.deployment.type }}
+    rollingUpdate:
+      maxUnavailable: {{ .Values.deployment.maxUnavailable }}
