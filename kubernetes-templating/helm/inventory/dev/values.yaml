@@ -3,9 +3,8 @@ namespace: dev
 
 # Список сервисов необходимых к развертыванию
 apps:
-  - kafka
   - redis
-
+  - kafka
 # Kafka, переменные сервиса
 kafka_service_name: kafka
 kafka_service_labels: kafka
@@ -23,11 +22,6 @@ kafka_set:
     value: PLAINTEXT
   - name: listeners.interbroker.protocol
     value: PLAINTEXT
-  - name: kraft.clusterId	
-    value: 8764567826578
-  - name: kraft.enabled	
-    value: true
-    
 
 
 # Redis, переменные сервиса
