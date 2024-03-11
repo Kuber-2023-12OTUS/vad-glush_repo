@@ -1,0 +1,21 @@
+environments:
+  dev:
+    values:
+    - inventory/dev/values.yaml
+  prod:
+    values:
+    - inventory/prod/values.yaml
+
+---
+bases:
+  - template/template.yaml
+
+---
+bases:
+  - releases/base.yaml
+
+hooks:
+  - events: ["prepare"]
+    showlogs: true
+    command: "scripts/create_namespase.sh"
+    args: [{{ .Values.namespace }}]

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: my-app-chart
+description: A Helm chart for my-app
+type: application
+version: 0.0.1
+appVersion: "1.16.0"
+dependencies:
+  - name: redis
+    version: "^18.17.1"
+    repository: "https://charts.bitnami.com/bitnami"

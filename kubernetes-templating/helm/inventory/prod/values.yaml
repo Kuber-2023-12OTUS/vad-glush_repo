@@ -1,0 +1,27 @@
+#Defult
+namespace: prod
+
+# Список сервисов необходимых к развертыванию
+apps:
+  - kafka 
+
+# Kafka, переменные сервиса
+kafka_service_name: kafka
+kafka_service_labels: kafka
+kafka_version: 25.3.5
+
+  # Использование публичного чарта
+kafka_use_exeternal_rep: true # Указание использования публичного репозитория или нет
+kafka_repositories_name: bitnami # Имя публичного репозитория
+kafka_repositories_url: https://charts.bitnami.com/bitnami # url публичного репозиторрия
+
+  # Путь к локальному чарту
+#kafka_chart: ../kafka 
+
+kafka_set:
+  - name: broker.replicaCount
+    value: 1
+  - name: listeners.client.protocol
+    value: SASL_PLAINTEXT
+  - name: listeners.interbroker.protocol
+    value: SASL_PLAINTEXT

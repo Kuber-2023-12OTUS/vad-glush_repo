@@ -6,7 +6,7 @@ metadata:
   labels:
     app: dz-volumes
 spec:
-  replicas: 3
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -24,7 +24,7 @@ spec:
       initContainers:
       - name: init-container
         image: busybox
-        command: ["/bin/sh", "-c", "echo 'Privet medved2' > /init/index.html && wget -O /init/metrics.html http://192.168.100.6:9090/metrics"]
+        command: ["/bin/sh", "-c", "echo 'Privet medved2' > /init/index.html && wget -O /init/metrics.html http://192.168.100.8:9090/metrics"]
         volumeMounts:
         - name: shared-volume
           mountPath: /init

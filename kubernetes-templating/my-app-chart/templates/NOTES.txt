@@ -1,0 +1,4 @@
+Адрес, по которому можно обратится к сервису  http://{{ .Values.ingress.host }}/homepage
+- http://homework.otus/metrics.html - Метрики
+- http://homework.otus - Созданный файл при старте сервиса с данными указанными в "{{ .Values.deployment.initContainers.command }}"
+- http://homework.otus/conf/file/ - Листинг файлов с переменными указанных в configmapdz.yaml
