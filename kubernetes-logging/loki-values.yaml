@@ -1,0 +1,17 @@
+loki:
+  enabled: true
+  config:
+    auth_enabled: false
+    storage_config:
+      aws:
+        s3: s3://ru-central1-d/bucket-vadglush
+        access_key_id: aje6o45d6l4e1vnbnmlq
+        secret_access_key: YCMpy5Fb2iG_bsWXk3uaYT8yfkOc4MsVXbGNIqj3
+  tolerations:
+  - key: "node-role"
+    operator: "Equal"
+    value: "infraservice"
+    effect: "NoSchedule"
+#  nodeSelector:
+#    node-role: infraservice
+  # Или используйте nodeAffinity вместо nodeSelector, если нужно более сложное условие

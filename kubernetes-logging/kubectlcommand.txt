@@ -1,0 +1,13 @@
+kubectl get node -o wide --show-labels
+
+NAME                        STATUS   ROLES    AGE   VERSION   INTERNAL-IP   EXTERNAL-IP       OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME     LABELS
+cl1jcorbo7q6vjhavih4-avaw   Ready    <none>   11m   v1.26.2   10.131.0.36   158.160.164.44    Ubuntu 20.04.6 LTS   5.4.0-167-generic   containerd://1.6.22   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=standard-v3,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/zone=ru-central1-d,kubernetes.io/arch=amd64,kubernetes.io/hostname=cl1jcorbo7q6vjhavih4-avaw,kubernetes.io/os=linux,node.kubernetes.io/instance-type=standard-v3,node.kubernetes.io/kube-proxy-ds-ready=true,node.kubernetes.io/masq-agent-ds-ready=true,node.kubernetes.io/node-problem-detector-ds-ready=true,topology.kubernetes.io/zone=ru-central1-d,yandex.cloud/node-group-id=catcbph890gs15gm63bp,yandex.cloud/pci-topology=k8s,yandex.cloud/preemptible=false
+cl1vplnihbpmhcn5gtu7-omot   Ready    <none>   15m   v1.26.2   10.131.0.31   158.160.150.188   Ubuntu 20.04.6 LTS   5.4.0-167-generic   containerd://1.6.22   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=standard-v3,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/zone=ru-central1-d,kubernetes.io/arch=amd64,kubernetes.io/hostname=cl1vplnihbpmhcn5gtu7-omot,kubernetes.io/os=linux,node.kubernetes.io/instance-type=standard-v3,node.kubernetes.io/kube-proxy-ds-ready=true,node.kubernetes.io/masq-agent-ds-ready=true,node.kubernetes.io/node-problem-detector-ds-ready=true,topology.kubernetes.io/zone=ru-central1-d,yandex.cloud/node-group-id=catlaqui8vujlcbv1n0k,yandex.cloud/pci-topology=k8s,yandex.cloud/preemptible=false
+
+________
+
+ kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints
+
+NAME                        TAINTS
+cl1jcorbo7q6vjhavih4-avaw   [map[effect:NoSchedule key:node-role value:infraservice]]
+cl1vplnihbpmhcn5gtu7-omot   <none>

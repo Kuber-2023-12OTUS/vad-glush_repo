@@ -1,0 +1,6 @@
+grafana:
+  tolerations:
+  - key: "node-role"
+    operator: "Equal"
+    value: "infraservice"
+    effect: "NoSchedule"
