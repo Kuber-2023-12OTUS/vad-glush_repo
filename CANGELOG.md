@@ -1,3 +1,15 @@
+v.0.9 #ДЗ Мониторинг приложения в кластере
+- Создан кастомный образ nginx, отдающий свои метрики
+- Установлен в кластер Prometheus-operator
+(
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus-operator prometheus-community/kube-prometheus-stack
+)
+- Создан deployment запускающий кастомный nginx образ и service для него 
+- Настроен запуск nginx prometheus exporter отделбным подом и сконфигурирован для сбора метрик с nginx
+- Создан манифест serviceMonitor, описывающий сбор метрик с подов
+
 v.0.8 #ДЗ Создание собственного CRD
 
 v.0.7.1 #ДЗ Шаблонизация манифестов приложения, использование Helm. Установка community Helm charts.
