@@ -1,0 +1,13 @@
+FROM nginx:latest
+
+# Установка окружения
+RUN apt update && \
+    apt install wget
+
+# Установка prometheus exporter для nginx
+RUN wget https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v1.1.0/nginx-prometheus-exporter_1.1.0_linux_amd64.tar.gz && \
+    tar -xvf nginx-prometheus-exporter_1.1.0_linux_amd64.tar.gz && \
+    mv nginx-prometheus-exporter /usr/local/bin/
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
