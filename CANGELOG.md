@@ -1,3 +1,12 @@
+v.0.10 #ДЗ Сервисы централизованного логирования для Kubernetes
+-  Создан файл с выводом команд kubectlcommand.txt
+
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm upgrade --install loki grafana/loki-stack --set loki.image.tag=2.9.3 --namespace logging --create-namespace -f loki-values.yaml 
+helm upgrade --install promtail grafana/promtail --namespace logging --create-namespace -f promtail-values.yaml
+helm upgrade --install grafana grafana/grafana --namespace logging -f grafana-values.yaml
+
 v.0.9 #ДЗ Мониторинг приложения в кластере
 - Создан кастомный образ nginx, отдающий свои метрики
 - Установлен в кластер Prometheus-operator
