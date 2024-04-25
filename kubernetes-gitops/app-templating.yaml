@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-templating
+  namespace: argocd
+spec:
+  project: otus
+  source:
+    repoURL: 'https://github.com/Kuber-2023-12OTUS/vad-glush_repo.git'
+    targetRevision: 'kubernetes-gitops'
+    path: 'kubernetes-templating/my-app-chart'
+    helm:
+      parameters:
+        - name: replicaCount
+          value: '1'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: homeworkhelm
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

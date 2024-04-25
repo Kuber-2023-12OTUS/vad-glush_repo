@@ -6,7 +6,7 @@ metadata:
   labels:
     app: dz3
 spec:
-  replicas: 3
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,8 +19,6 @@ spec:
       labels:
         app: my-app
     spec:
-      nodeSelector:
-        homework: "true"
       initContainers:
       - name: init-container
         image: busybox
@@ -49,6 +47,11 @@ spec:
           preStop:
             exec:
               command: ["/bin/sh", "-c", "rm -f /homework/index.html"]
+      tolerations:
+      - key: "node-role"
+        operator: "Equal"
+        value: "infra"
+        effect: "NoSchedule"
       volumes:
       - name: shared-volume
         emptyDir: {}

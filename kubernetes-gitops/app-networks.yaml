@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-networks2
+  namespace: argocd
+spec:
+  project: otus
+  source:
+    repoURL: 'https://github.com/Kuber-2023-12OTUS/vad-glush_repo.git'
+    targetRevision: 'kubernetes-gitops'
+    path: 'kubernetes-networks'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: 'homework'
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
+#  ignoreDifferences:
+#    - group: apps
+#      kind: Deployment
+#      jsonPointers:
+#        - /spec/template/spec/nodeSelector
