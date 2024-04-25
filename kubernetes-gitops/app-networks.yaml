@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-networks
+  name: app-networks2
   namespace: argocd
 spec:
   project: otus
@@ -18,8 +18,8 @@ spec:
       selfHeal: false
     syncOptions:
       - CreateNamespace=true
-  ignoreDifferences:
-    - group: apps
-      kind: Deployment
-      jsonPointers:
-        - /spec/template/spec/nodeSelector
+#  ignoreDifferences:
+#    - group: apps
+#      kind: Deployment
+#      jsonPointers:
+#        - /spec/template/spec/nodeSelector
