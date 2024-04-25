@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-ya-pod
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+    volumeMounts:
+    - mountPath: /data
+      name: my-ya-volume
+  volumes:
+  - name: my-ya-volume
+    persistentVolumeClaim:
+      claimName: yandex-pvc

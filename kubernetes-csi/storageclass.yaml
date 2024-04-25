@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: yandex-object-storage
+provisioner: yandex.csi.storage.k8s.io
+parameters:
+  type: vadglushbacket
+  zone: ru-central1-d
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
