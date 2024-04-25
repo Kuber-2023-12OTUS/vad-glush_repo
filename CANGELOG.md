@@ -1,14 +1,36 @@
+v.0.12 #ДЗ Хранилище секретов для приложения Vault.
+
+helm repo add hashicorp https://helm.releases.hashicorp.com
+helm repo update
+helm install consul hashicorp/consul -f kubernetes-vault/consul-values.yaml --namespace consul --create-namespace
+helm install vault hashicorp/vault -f kubernetes-vault/vault-values.yaml --namespace vault --create-namespace
+
+- `sa-vault-auth.yaml` - serviceAccount с именем vault-auth иClusterRoleBinding длā него с ролþĀ system:auth-delegator
+
+- Cоздания роли `auth/kubernetes/role/otus`
+vault write auth/kubernetes/role/otus \
+    bound_service_account_names=vault-auth \
+    bound_service_account_namespaces=vault \
+    policies=otus-policy \
+    ttl=1h
+
+- Установка `External Secrets Operator`
+helm repo add external-secrets https://charts.external-secrets.io
+helm repo update
+helm install external-secrets external-secrets/external-secrets --namespace vault
+
+- `secretstore.yaml` -  манифест crd обьекта `SecretStore`
+- `externalsecret.yaml` - манифест описания `ExternalSecret`, который будет получать данные из Vault
+
 v.0.11 #ДЗ GitOps и инструментыпоставки
 helm repo add argo https://argoproj.github.io/argo-helm
-helm repo update
+с
 helm install argocd argo/argo-cd -f argo-values.yaml --namespace argocd --create-namespace
 kubectl port-forward service/argocd-server -n argocd 8080:443
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-
-
 - argo-project.yaml - project с именем Otus
-- app-templating.yaml - апликейшен из kubernetes-networks
-- app-networks.yaml - апликейшен из kubernetes-templating
+- app-templating.yaml - апликейшен из kubernetes-ne![alt text](image.png)
+
 v.0.10 #ДЗ Сервисы централизованного логирования для Kubernetes
 -  Создан файл с выводом команд kubectlcommand.txt
 
