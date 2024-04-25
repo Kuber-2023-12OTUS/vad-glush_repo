@@ -1,0 +1,18 @@
+server:
+  ha_enabled: true
+
+ui:
+  enabled: true
+
+externalConfig:
+  enabled: true
+  config: |
+    storage "consul" {
+    address = "consul-server-0.consul-server:8500"
+    path    = "vault"
+    }
+
+    listener "tcp" {
+    address = "0.0.0.0:8200"
+    tls_disable = 1
+    }
