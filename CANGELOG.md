@@ -1,3 +1,12 @@
+v.0.11 #ДЗ GitOps и инструментыпоставки
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm install argocd argo/argo-cd -f argo-values.yaml --namespace argocd --create-namespace
+kubectl port-forward service/argocd-server -n argocd 8080:443
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+
+- argo-project.yaml - project с именем Otus
 v.0.10 #ДЗ Сервисы централизованного логирования для Kubernetes
 -  Создан файл с выводом команд kubectlcommand.txt
 

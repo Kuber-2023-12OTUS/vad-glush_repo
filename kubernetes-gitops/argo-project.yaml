@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: otus
+  namespace: argocd
+spec:
+  description: 'Otus project'
+  sourceRepos:
+    - 'https://github.com/Kuber-2023-12OTUS/vad-glush_repo.git'
+  destinations:
+    - namespace: '*'
+      server: 'https://kubernetes.default.svc'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
