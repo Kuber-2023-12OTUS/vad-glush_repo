@@ -1,3 +1,6 @@
+v.0.13 #ДЗ Установка и использование CSI драйвера
+
+
 v.0.12 #ДЗ Хранилище секретов для приложения Vault.
 
 helm repo add hashicorp https://helm.releases.hashicorp.com
