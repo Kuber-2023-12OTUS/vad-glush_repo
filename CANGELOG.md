@@ -1,27 +1,3 @@
-v.0.12 #ДЗ Хранилище секретов для приложения Vault.
-
-helm repo add hashicorp https://helm.releases.hashicorp.com
-helm repo update
-helm install consul hashicorp/consul -f kubernetes-vault/consul-values.yaml --namespace consul --create-namespace
-helm install vault hashicorp/vault -f kubernetes-vault/vault-values.yaml --namespace vault --create-namespace
-
-- `sa-vault-auth.yaml` - serviceAccount с именем vault-auth иClusterRoleBinding длā него с ролþĀ system:auth-delegator
-
-- Cоздания роли `auth/kubernetes/role/otus`
-vault write auth/kubernetes/role/otus \
-    bound_service_account_names=vault-auth \
-    bound_service_account_namespaces=vault \
-    policies=otus-policy \
-    ttl=1h
-
-- Установка `External Secrets Operator`
-helm repo add external-secrets https://charts.external-secrets.io
-helm repo update
-helm install external-secrets external-secrets/external-secrets --namespace vault
-
-- `secretstore.yaml` -  манифест crd обьекта `SecretStore`
-- `externalsecret.yaml` - манифест описания `ExternalSecret`, который будет получать данные из Vault
-
 v.0.11 #ДЗ GitOps и инструментыпоставки
 helm repo add argo https://argoproj.github.io/argo-helm
 с
