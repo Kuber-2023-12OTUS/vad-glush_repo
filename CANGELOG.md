@@ -7,6 +7,8 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 
 - argo-project.yaml - project с именем Otus
+- app-templating.yaml - апликейшен из kubernetes-networks
+- app-networks.yaml - апликейшен из kubernetes-templating
 v.0.10 #ДЗ Сервисы централизованного логирования для Kubernetes
 -  Создан файл с выводом команд kubectlcommand.txt
 
