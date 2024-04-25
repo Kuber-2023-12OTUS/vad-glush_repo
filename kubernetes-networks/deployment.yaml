@@ -49,17 +49,17 @@ spec:
           preStop:
             exec:
               command: ["/bin/sh", "-c", "rm -f /homework/index.html"]
+      tolerations:
+        - key: "node-role"
+          operator: "Equal"
+          value: "infra"
+          effect: "NoSchedule"
       volumes:
       - name: shared-volume
         emptyDir: {}
       - name: nginx-config-volume
         configMap:
           name: nginx-config
-  tolerations:
-    - key: "node-role"
-      operator: "Equal"
-      value: "infra"
-      effect: "NoSchedule"
   strategy:
     type: RollingUpdate
     rollingUpdate:
