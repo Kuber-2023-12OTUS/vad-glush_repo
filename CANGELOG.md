@@ -1,3 +1,16 @@
+v.0.13 #ДЗ Установка и использование CSI драйвера
+
+- Создание ServiceAccount в Yandex Cloud
+yc iam service-account create --name my-service-account
+- Генерация ключей доступа для ServiceAccount
+yc iam access-key create --service-account-name my-service-account
+- Перевод id и secret в base64
+echo -n "XXXXX" | base64
+- `secret.yaml` -  secret c ключами для доступа к Object Storage
+- `storageclass.yaml` - storageClass описýваĀщий класс хранилища
+- `pvc.yaml` - манифест PVC, использующий для хранения созданный storageClass
+- `pod.yaml` - манифест pod использующий созданный ранее PVC в качестве volume
+
 v.0.12 #ДЗ Хранилище секретов для приложения Vault.
 
 helm repo add hashicorp https://helm.releases.hashicorp.com
